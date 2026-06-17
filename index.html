@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rembrandtstraße</title>
+
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --secondary: #40916c;
+            --light: #f8f9fa;
+            --dark: #1b4332;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        nav {
+            background: var(--dark);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        section {
+            max-width: 1000px;
+            margin: auto;
+            padding: 2rem;
+        }
+
+        .card {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: var(--secondary);
+        }
+
+        .post {
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+            margin-top: 10px;
+        }
+
+        .event {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        footer {
+            text-align: center;
+            background: var(--dark);
+            color: white;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🏡 Rembrandtstraße</h1>
+        <p>Gemeinsam für eine lebendige Nachbarschaft</p>
+    </header>
+
+    <nav>
+        <a href="#info">Info</a>
+        <a href="#termine">Termine</a>
+        <a href="#brett">Schwarzes Brett</a>
+        <a href="#kontakt">Kontakt</a>
+    </nav>
+
+    <section id="info">
+        <div class="card">
+            <h2>Willkommen</h2>
+            <p>
+                Diese Plattform dient unserer Nachbarschaft als gemeinsamer Treffpunkt.
+                Hier können Termine angekündigt, Informationen geteilt und Ideen gesammelt werden.
+            </p>
+        </div>
+    </section>
+
+    <section id="termine">
+        <div class="card">
+            <h2>Termine</h2>
+
+            <input type="text" id="eventTitle" placeholder="Veranstaltung">
+            <input type="date" id="eventDate">
+            <button onclick="addEvent()">Termin hinzufügen</button>
+
+            <div id="eventList"></div>
+        </div>
+    </section>
+
+    <section id="brett">
+        <div class="card">
+            <h2>Schwarzes Brett</h2>
+
+            <input type="text" id="author" placeholder="Dein Name">
+            <textarea id="message" rows="4" placeholder="Nachricht schreiben..."></textarea>
+
+            <button onclick="addPost()">Veröffentlichen</button>
+
+            <div id="posts"></div>
+        </div>
+    </section>
+
+    <section id="kontakt">
+        <div class="card">
+            <h2>Kontakt</h2>
+            <p>E-Mail: nachbarschaft@unsere-strasse.at</p>
+            <p>WhatsApp-Gruppe: Link hier einfügen</p>
+        </div>
+    </section>
+
+    <footer>
+        Rembrandtstraße © 2026
+    </footer>
+
+    <script>
+        let posts = JSON.parse(localStorage.getItem("posts")) || [];
+        let events = JSON.parse(localStorage.getItem("events")) || [];
+
+        function saveData() {
+            localStorage.setItem("posts", JSON.stringify(posts));
+            localStorage.setItem("events", JSON.stringify(events));
+        }
+
+        function renderPosts() {
+            const container = document.getElementById("posts");
+            container.innerHTML = "";
+
+            posts.slice().reverse().forEach(post => {
+                container.innerHTML += `
+            <div class="post">
+                <strong>${post.author}</strong><br>
+                <small>${post.date}</small>
+                <p>${post.message}</p>
+            </div>
+        `;
+            });
+        }
+
+        function addPost() {
+            const author = document.getElementById("author").value.trim();
+            const message = document.getElementById("message").value.trim();
+
+            if (!author || !message) {
+                alert("Bitte Name und Nachricht eingeben.");
+                return;
+            }
+
+            posts.push({
+                author,
+                message,
+                date: new Date().toLocaleString("de-AT")
+            });
+
+            saveData();
+            renderPosts();
+
+            document.getElementById("author").value = "";
+            document.getElementById("message").value = "";
+        }
+
+        function renderEvents() {
+            const container = document.getElementById("eventList");
+            container.innerHTML = "";
+
+            events.forEach(event => {
+                container.innerHTML += `
+            <div class="event">
+                <strong>${event.title}</strong><br>
+                ${event.date}
+            </div>
+        `;
+            });
+        }
+
+        function addEvent() {
+            const title = document.getElementById("eventTitle").value.trim();
+            const date = document.getElementById("eventDate").value;
+
+            if (!title || !date) {
+                alert("Bitte Termin und Datum eingeben.");
+                return;
+            }
+
+            events.push({
+                title,
+                date
+            });
+
+            saveData();
+            renderEvents();
+
+            document.getElementById("eventTitle").value = "";
+            document.getElementById("eventDate").value = "";
+        }
+
+        renderPosts();
+        renderEvents();
+    </script>
+
+</body>
+
+</html>
