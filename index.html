@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rembrandtstraße</title>
+    <title>Rembrandtstraßenfest</title>
 
     <style>
         :root {
-            --primary: #d8a84e;
-            --secondary: #918e40;
-            --light: #f8f9fa;
-            --dark: #431f1b;
+            --primary: #4A90E2;
+            --secondary: #6FCF97;
+            --light: #6FCF97;
+            --dark: #6FCF97;
         }
 
         * {
@@ -42,7 +42,7 @@
         }
 
         nav a {
-            color: white;
+            color: black;
             text-decoration: none;
         }
 
@@ -75,8 +75,7 @@
         }
 
         button {
-            background: var(--primary);
-            color: white;
+            color: black;
             border: none;
             padding: 10px 15px;
             border-radius: 5px;
@@ -84,7 +83,7 @@
         }
 
         button:hover {
-            background: var(--secondary);
+            opacity: 0.5;
         }
 
         .post {
@@ -105,61 +104,78 @@
             padding: 1rem;
             margin-top: 2rem;
         }
+
+        .nav-buttons {
+            transition: color 0.3s;
+        }
+
+        .nav-buttons:hover {
+            color: white;
+        }
+
+        .footer {
+            color: black;
+        }
+
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            text-align: justify;
+            /* Blocksatz */
+            margin-bottom: 1.5em;
+        }
+
+        .intro-text p {
+            margin-bottom: 1.5em;
+            /* Abstand zwischen Absätzen */
+        }
     </style>
 </head>
 
 <body>
 
     <header>
-        <h1>Rembrandtstraße</h1>
+        <h1>Rembrandtstraßenfest</h1>
         <p>Nachbarschaftskollektiv</p>
     </header>
 
     <nav>
-        <a href="#info">Info</a>
-        <!-- 
-        <a href="#termine">Termine</a>
-        <a href="#brett">Schwarzes Brett</a>
-        -->
-        <a href="#kontakt">Kontakt</a>
+        <a class="nav-buttons" href="#info">Info</a>
+
+        <a class="nav-buttons" href="#termine">Termine</a>
+
+        <a class="nav-buttons" href="#kontakt">Kontakt</a>
     </nav>
 
     <section id="info">
         <div class="card">
             <h2>Willkommen</h2>
-            <p>
-                Diese Plattform dient unserer Nachbarschaft als gemeinsamer Treffpunkt.
-                Hier können Termine angekündigt, Informationen geteilt und Ideen gesammelt werden.
-            </p>
+            <div class="intro-text">
+                <p>
+                    Liebe Nachbar*innen, wir haben diese Website erstellt, um auf zukünftige Termine hinzuweisen,
+                    gemeinsame Aktivitäten zu koordinieren und einen Überblick über unsere Ideen und Projekte zu geben.
+                </p>
+
+                <p>
+                    Unsere Nachbarschaft lebt vom Miteinander. Deshalb soll diese Seite ein zentraler Ort sein, an dem
+                    Informationen ausgetauscht, Veranstaltungen angekündigt und neue Anregungen gesammelt werden können.
+                </p>
+
+                <p>
+                    Wir freuen uns über jede Person, die sich einbringen, Ideen teilen oder einfach über aktuelle
+                    Entwicklungen informiert bleiben möchte.
+                </p>
+            </div>
         </div>
     </section>
-    <!-- 
+
     <section id="termine">
-        <div class="card">
-            <h2>Termine</h2>
-
-            <input type="text" id="eventTitle" placeholder="Veranstaltung">
-            <input type="date" id="eventDate">
-            <button onclick="addEvent()">Termin hinzufügen</button>
-
-            <div id="eventList"></div>
-        </div>
+        <iframe
+            src="https://calendar.google.com/calendar/embed?src=83a6321d49fea898f354cf23cf2a78c5eda7e64b79f6c64e0a3dda236b61e1f5%40group.calendar.google.com&ctz=Europe%2FVienna"
+            style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
     </section>
 
-  
-    <section id="brett">
-        <div class="card">
-            <h2>Schwarzes Brett</h2>
-
-            <input type="text" id="author" placeholder="Dein Name">
-            <textarea id="message" rows="4" placeholder="Nachricht schreiben..."></textarea>
-
-            <button onclick="addPost()">Veröffentlichen</button>
-
-            <div id="posts"></div>
-        </div>
-    </section>
--->
     <section id="kontakt">
         <div class="card">
             <h2>Kontakt</h2>
@@ -169,94 +185,11 @@
         </div>
     </section>
 
-    <footer>
-        Rembrandtstraßenkollektiv © 2026
+    <footer class="footer">
+        Rembrandtstraßenfest © 2026
     </footer>
 
-    <script>
-        let posts = JSON.parse(localStorage.getItem("posts")) || [];
-        let events = JSON.parse(localStorage.getItem("events")) || [];
 
-        function saveData() {
-            localStorage.setItem("posts", JSON.stringify(posts));
-            localStorage.setItem("events", JSON.stringify(events));
-        }
-
-        function renderPosts() {
-            const container = document.getElementById("posts");
-            container.innerHTML = "";
-
-            posts.slice().reverse().forEach(post => {
-                container.innerHTML += `
-            <div class="post">
-                <strong>${post.author}</strong><br>
-                <small>${post.date}</small>
-                <p>${post.message}</p>
-            </div>
-        `;
-            });
-        }
-
-        function addPost() {
-            const author = document.getElementById("author").value.trim();
-            const message = document.getElementById("message").value.trim();
-
-            if (!author || !message) {
-                alert("Bitte Name und Nachricht eingeben.");
-                return;
-            }
-
-            posts.push({
-                author,
-                message,
-                date: new Date().toLocaleString("de-AT")
-            });
-
-            saveData();
-            renderPosts();
-
-            document.getElementById("author").value = "";
-            document.getElementById("message").value = "";
-        }
-
-        function renderEvents() {
-            const container = document.getElementById("eventList");
-            container.innerHTML = "";
-
-            events.forEach(event => {
-                container.innerHTML += `
-            <div class="event">
-                <strong>${event.title}</strong><br>
-                ${event.date}
-            </div>
-        `;
-            });
-        }
-
-        function addEvent() {
-            const title = document.getElementById("eventTitle").value.trim();
-            const date = document.getElementById("eventDate").value;
-
-            if (!title || !date) {
-                alert("Bitte Termin und Datum eingeben.");
-                return;
-            }
-
-            events.push({
-                title,
-                date
-            });
-
-            saveData();
-            renderEvents();
-
-            document.getElementById("eventTitle").value = "";
-            document.getElementById("eventDate").value = "";
-        }
-
-        renderPosts();
-        renderEvents();
-    </script>
 
 </body>
 
