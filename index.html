@@ -130,6 +130,23 @@
             margin-bottom: 1.5em;
             /* Abstand zwischen Absätzen */
         }
+
+        .calendar-wrapper {
+            width: 100%;
+            margin: 0 auto;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        .calendar-wrapper iframe {
+            width: 100%;
+            height: 70vh;
+            /* ← macht ihn flexibel zur Bildschirmhöhe */
+            border: 0;
+        }
     </style>
 </head>
 
@@ -207,23 +224,31 @@
         </div>
     </section>
 
+
+
+
     <section id="termine">
-        <iframe
-            src="https://calendar.google.com/calendar/embed?src=83a6321d49fea898f354cf23cf2a78c5eda7e64b79f6c64e0a3dda236b61e1f5%40group.calendar.google.com&ctz=Europe%2FVienna"
-            style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+        <div class="calendar-wrapper"> <iframe
+                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FVienna&showPrint=0&mode=AGENDA&src=ODNhNjMyMWQ0OWZlYTg5OGYzNTRjZjIzY2YyYTc4YzVlZGE3ZTY0Yjc5ZjZjNjRlMGEzZGRhMjM2YjYxZTFmNUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23009688"
+                style="border:solid 1px #ffffff" frameborder="0" scrolling="no"></iframe>
+        </div>
     </section>
 
     <section id="kontakt">
         <div class="card">
             <h2>Kontakt</h2>
-            <p>E-Mail: rembrandtstrassenfest@gmail.com</p>
-            <a href="https://signal.group/#CjQKIDntmjxFDeMZT54LH8XPFbA4nGW-O-ev_ZGjfvpJ8u94EhCBsUqPhOPvEnPtFSfdiZSl"
-                target="_blank">Signal-Gruppe</a>
+            <a style="text-decoration:none; color:inherit; border: 1px solid var(--primary); padding: 10px; border-radius: 5px; display: inline-block; margin-top: 10px;"
+                href="mailto:rembrandtstrassenfest@gmail.com">rembrandtstrassenfest@gmail.com</a>
+            <a style="text-decoration:none; color:inherit; border: 1px solid var(--primary); padding: 10px; border-radius: 5px; display: inline-block; margin-top: 10px;"
+                href="https://chat.whatsapp.com/HAoQNQiApdpLEs7NTIk9If?mode=gi_t" target="_blank">WhatsApp-Gruppe</a>
         </div>
     </section>
 
+
+
     <footer class="footer">
-        Rembrandtstraßenfest © 2026
+        Rembrandtstraßenfest 2026
     </footer>
 
 
